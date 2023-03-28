@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 from datetime import datetime
 
 userName = "git config user.name"
@@ -21,6 +22,10 @@ paramsDiff = {
 headers = {
     "PRIVATE-TOKEN": apiToken,
 }
+
+dir_path = "./relatorios"
+if not os.path.exists(dir_path):
+    os.makedirs(dir_path)
 
 for project in projects:
     url = urlGitLab+project["id"]+"/repository/commits"
@@ -51,7 +56,7 @@ for project in projects:
             else:
                 artifacts[commit["id"]] = [artifact]
 
-    with open("./relatorios/" + project["nome"] + "-commits.json", "w", encoding="utf-8") as f:
+    with open(dir_path + "/" + project["nome"] + "-commits.json", "w", encoding="utf-8") as f:
         json.dump(artifacts, f, ensure_ascii=False, indent=4)
 
 print("Dados salvos com sucesso!")
