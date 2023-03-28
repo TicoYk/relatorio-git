@@ -1,0 +1,31 @@
+.idea
+*.iml
+*.iws
+*.ipr
+
+# Compiled files
+*.class
+*.jar
+*.war
+*.ear
+/target
+
+# Logs and databases
+*.log
+*.sqlite
+*.sqlite3
+*.db
+*.h2.db
+
+# Maven specific
+log/
+target/
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Gradle specific
+.gradle/
+build/
+
+relatorios/*
