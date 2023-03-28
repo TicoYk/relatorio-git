@@ -2,12 +2,16 @@ import requests
 import json
 from datetime import datetime
 
+userName = "git config user.name"
+urlGitLab = "https://rota.gitlab.com/api/v4/projects/"
+apiToken = "API-TOKEN"
+since = "yyyy-MM-dd"
 projects = [
     {"nome": "nome-projeto", "id": "id-projeto"},
 ]
-userName = "git config user.name"
+
 paramsCommit = {
-    "since": "yyyy-MM-ddT00:00:00Z",
+    "since": since + "T00:00:00Z",
     "all" : "true",
     "per_page": "2000"
 }
@@ -15,11 +19,11 @@ paramsDiff = {
     "with_stats": "true"
 }
 headers = {
-    "PRIVATE-TOKEN": "API-TOKEN-GIT",
+    "PRIVATE-TOKEN": apiToken,
 }
 
 for project in projects:
-    url = "https://rota.gitlab.com/api/v4/projects/"+project["id"]+"/repository/commits"
+    url = urlGitLab+project["id"]+"/repository/commits"
     response = requests.get(url, params=paramsCommit, headers=headers, verify=False)
     commits = response.json()
     artifacts = {}
@@ -47,7 +51,7 @@ for project in projects:
             else:
                 artifacts[commit["id"]] = [artifact]
 
-    with open(project["nome"] + "-commits.json", "w", encoding="utf-8") as f:
+    with open("./relatorios/" + project["nome"] + "-commits.json", "w", encoding="utf-8") as f:
         json.dump(artifacts, f, ensure_ascii=False, indent=4)
 
 print("Dados salvos com sucesso!")
